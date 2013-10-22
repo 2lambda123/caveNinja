@@ -9,6 +9,7 @@ nmbItems = 10
 nmbPlayers = 3
 objSpeed = 0.5 # per second
 objStartingRadius = 5
+objHeight = 1
 
 random.seed()
 
@@ -19,7 +20,7 @@ for player in xrange(nmbPlayers):
         x = random.randint(0, objStartingRadius) * (random.randint(0, 1) * 2 - 1)
         z = math.sqrt(math.pow(objStartingRadius,2) - math.pow(x,2)) * (random.randint(0, 1) * 2 - 1)
         objects[player].append( BoxShape.create(0.5, 0.5, 0.5) )
-        objects[player][item].setPosition(Vector3(x, 2, z))
+        objects[player][item].setPosition(Vector3(x, objHeight, z))
 
 
 # Spin the box!
@@ -32,6 +33,6 @@ def onUpdate(frame, t, dt):
             dist -= objSpeed * dt
             z = math.sin(angle) * dist
             x = math.cos(angle) * dist
-            objects[player][item].setPosition(x, 2, z)
+            objects[player][item].setPosition(x, objHeight, z)
 
 setUpdateFunction(onUpdate)
