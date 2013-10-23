@@ -16,7 +16,11 @@ totalItems = 36
 
 objHeight = 1.0
 
-random.seed()
+#random.seed()
+if isMaster():
+  random.seed()
+  mySeed = random.randint(0, 1000000)
+  broadcastCommand("syncRandom(%d)" % (mySeed))
 
 # create a light
 light1 = Light.create()
@@ -31,10 +35,6 @@ activeWandIds = [-1] * 3
 
 playerList=[]
 
-count = 0
-for player in players:
-    playerList.append( Player(nmbItems, objHeight, objStartingRadius, totalItems, timestep, player, 0) )
-    count += 1
     
 #scoreBoard = ScoreBoard(playerList) 
 
@@ -43,8 +43,20 @@ def printActiveWands():
     for wandId in activeWandIds:
         print wandId
 
+def syncRandom(mySeed):
+  print "Seeding with %d" % (mySeed)
+  random.seed(mySeed)
+
 # Spin the box!
+hasRun = False
+
 def onUpdate(frame, t, dt):
+  global hasRun
+  if t > 2.0 and not hasRun:
+    for player in players:
+      playerList.append( Player(nmbItems, objHeight, objStartingRadius, totalItems, timestep, player, 0) )
+    hasRun = True
+
   for item in gameItems:
     item.update(dt)
 

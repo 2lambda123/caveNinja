@@ -7,6 +7,7 @@ import random
 
 itemModel = {}
 players = ['Andrew', 'Joshua', 'Antwan']
+#players = ['Andrew']
 items = {}
 gameItems = []
 
@@ -15,7 +16,6 @@ items['Joshua'] = ['banana']
 items['Antwan'] = ['SpaceShip', 'Sword']
 
 def getRandomPosition(y, radius):
-  random.seed()
   x = random.randint(0, radius) * (random.randint(0, 1) * 2 -  1)
   z = sqrt(pow(radius,2) - pow(x,2)) * (random.randint(0, 1) * 2 - 1)
   return Vector3(x, y, z)
@@ -42,6 +42,8 @@ def createRandomItem(playerName, height, radius):
   
   #test hit zone:
   item.setBoundingBoxVisible(True)
+
+  print item.getPosition()
 
   return item
 
