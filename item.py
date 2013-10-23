@@ -5,7 +5,7 @@ from math import *
 
 class Item:
 
-  def __init__(self, directory, scale, height, startingRadius, playerName):
+  def __init__(self, scene, directory, scale, height, startingRadius, playerName):
     self.directory = directory
     self.height = height
     self.scale = scale
@@ -15,6 +15,10 @@ class Item:
 
     #Assign a model
     self.item = createRandomItem(playerName, height, startingRadius)
+    
+    #
+    #scene.addChild(self.item)
+    #self.item.setSelectable(True)
 
   def originCheck(self):
     pos = self.item.getPosition()
@@ -35,3 +39,20 @@ class Item:
     x = math.cos(angleX) * dist
     self.item.setPosition(x, self.height, z)
 
+  def queryCallback(node, distance):
+        print("Node " + node.getName() + " hit at " + distance)
+
+
+'''
+node = SceneNode.create('node')
+getScene().addChild(node)
+node.setSelectable(true)
+
+# attach some stuff to the node...
+# [ ... ]
+
+def queryCallback(node distance):
+    print("Node " + node.getName() + " hit at " + distance)
+
+querySceneRay(Vector3f(0, 0, 0), Vector3f(0, 0, -1), queryCallback)
+'''

@@ -36,9 +36,12 @@ def loadModels():
 def createRandomItem(playerName, height, radius):
   index = random.randint(0, len(items[playerName]) - 1)
 
-  item = StaticObject.create( items[playerName][index])
+  item = StaticObject.create(items[playerName][index])
   item.setPosition( getRandomPosition( height, radius ) )
   item.setEffect("textured")
+  
+  #test hit zone:
+  item.setBoundingBoxVisible(True)
 
   return item
 
