@@ -62,7 +62,7 @@ def createRandomItem(playerName, radius, force, relativePosition):
   print "Creating: %s %s" % (playerName, items[playerName][index])
   item = StaticObject.create( items[playerName][index])
   item.setPosition(randPos)
-  item.setEffect("textured")
+  item.setEffect("textured -C")
   item.getRigidBody().initialize(RigidBodyType.Box, 1)
   item.getRigidBody().applyImpulse(force, relativePosition)
   item.getRigidBody().sync()
