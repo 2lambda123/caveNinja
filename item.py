@@ -28,40 +28,45 @@ class Item:
     self.relativePosition.y = rangef(self.rMin, self.rMax)
     self.relativePosition.z = rangef(self.rMin, self.rMax)
 
-    r =  rangef(self.iMinR, self.iMaxR)
-    self.initialPosition = getRandomPosition(0, r)
-    norm = copy.copy(self.initialPosition)
-    norm.normalize()
-    self.force.x = -1 * norm.x
-    self.force.z = -1 * norm.z
 
+
+    r =  rangef(self.iMinR, self.iMaxR)
     iIdx = randint(0, 1)
     pIdx = randint(0, 2)
-    self.item = StaticObject.create( items[players[pIdx]][iIdx] )
-    self.item.setPosition( self.initialPosition )
-    self.item.setEffect("textured")
-    self.item.getRigidBody().initialize(RigidBodyType.Box, 1)
-    self.item.getRigidBody().applyImpulse(self.force, self.relativePosition)
+    #self.item = StaticObject.create( items[players[pIdx]][iIdx] )
+    #self.item.setPosition( self.initialPosition )
+    #self.item.setEffect("textured")
+    #self.item.getRigidBody().initialize(RigidBodyType.Box, 1)
+    #self.item.getRigidBody().applyImpulse(self.force, self.relativePosition)
     #item.getRigidBody().setUserControlled(True)
-    self.item.getRigidBody().sync()
+    #self.item.getRigidBody().sync()
+    self.halves = createRandomItem(playerName, r, self.force, self.relativePosition)
+
+
+    self.parentHalf = self.halves[0]
+
+    self.parentHalf.addChild(self.halves[1])
+    self.halves[1].setPosition(Vector3(0,0,0))
+
+    #if 'banana' in self.halves[1].getName():
+    self.halves[1].setScale(Vector3(1.2,1.2,1.2))
+
+
+    #scene.addChild(self.item)
+    #self.item.setSelectable(True)
 
   def originCheck(self):
-    pos = self.item.getPosition()
+    pos = self.parentHalf.getPosition()
     if pos.x > -2 and pos.x < 2 and pos.z > -2 and pos.z < 2 :
       #resetPosition
-      self.item.setPosition( getRandomPosition(self.height, self.radius) )
+      self.parentHalf.setPosition( getRandomPosition(self.height, self.radius))
+      self.parentHalf.setEffect('textured')
       #reset speed
       self.objSpeed = random.random() * 0.2 + 0.3
 
-#  def update(self, dt):
-    #self.originCheck()
-    #pos = self.item.getPosition()
-    #dist = sqrt( pow(pos.x,2) + pow(pos.z,2) )
-    #angleZ = asin( pos.z / dist )
-    #angleX = acos( pos.x / dist )
-    #dist -= self.objSpeed * dt
-    #z = math.sin(angleZ) * dist
-    #x = math.cos(angleX) * dist
-    #self.item.setPosition(x, self.height, z)
-    #self.item.getRigidBody().sync()
-
+  def resetPosition(self):
+    self.parentHalf.setPosition( getRandomPosition(self.height, self.radius))
+    self.parentHalf.setEffect('textured')
+    self.halves[1].setEffect('textured')
+    #reset speed
+    self.objSpeed = random.random() * 0.2 + 0.3

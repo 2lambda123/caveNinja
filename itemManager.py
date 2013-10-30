@@ -21,6 +21,7 @@ class ItemManager:
   def spawn(self):
     #do nothing
     item = Item()
+    gameItems.append(item)
 
   def update(self, frame, t, dt):
     if isMaster():
