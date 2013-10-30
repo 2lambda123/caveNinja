@@ -1,6 +1,8 @@
 from item import *
 from common import *
 
+global bananas
+
 class Player:
 
   items = []
@@ -20,6 +22,9 @@ class Player:
       newItem = Item(getSceneManager(), " ", 0.5, objHeight, objStartingRadius, name)
       self.items.append( newItem )
       gameItems.append( newItem )
+      
+    bananas = gameItems[0].halves
+      
 
 
   def update(self, t, dt):

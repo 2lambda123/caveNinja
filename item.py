@@ -14,33 +14,49 @@ class Item:
     self.objSpeed = random.random() * 0.2 + 0.3
 
     #Assign a model
-    self.item = createRandomItem(playerName, height, startingRadius)
+    #self.item = createRandomItem(playerName, height, startingRadius)
+    self.halves = createRandomItem(playerName, height, startingRadius)
+
     
-    #
+    self.parentHalf = self.halves[0]
+
+    self.parentHalf.addChild(self.halves[1])  
+    self.halves[1].setPosition(Vector3(0,0,0))
+    
+    #if 'banana' in self.halves[1].getName():
+    self.halves[1].setScale(Vector3(1.2,1.2,1.2))
+    
+    
     #scene.addChild(self.item)
     #self.item.setSelectable(True)
 
   def originCheck(self):
-    pos = self.item.getPosition()
+    pos = self.parentHalf.getPosition()
     if pos.x > -2 and pos.x < 2 and pos.z > -2 and pos.z < 2 :
       #resetPosition
-      self.item.setPosition( getRandomPosition(self.height, self.radius) )
+      self.parentHalf.setPosition( getRandomPosition(self.height, self.radius))
+      self.parentHalf.setEffect('textured')
       #reset speed
       self.objSpeed = random.random() * 0.2 + 0.3
+      
+  def resetPosition(self):
+    self.parentHalf.setPosition( getRandomPosition(self.height, self.radius))
+    self.parentHalf.setEffect('textured')
+    self.halves[1].setEffect('textured')
+    #reset speed
+    self.objSpeed = random.random() * 0.2 + 0.3
 
   def update(self, dt):
     self.originCheck()
-    pos = self.item.getPosition()
+    pos = self.parentHalf.getPosition()
     dist = sqrt( pow(pos.x,2) + pow(pos.z,2) )
     angleZ = asin( pos.z / dist )
     angleX = acos( pos.x / dist )
     dist -= self.objSpeed * dt
     z = math.sin(angleZ) * dist
     x = math.cos(angleX) * dist
-    self.item.setPosition(x, self.height, z)
+    self.parentHalf.setPosition(x, self.height, z)
 
-  def queryCallback(node, distance):
-        print("Node " + node.getName() + " hit at " + distance)
 
 
 '''

@@ -5,6 +5,7 @@ Created on Oct 23, 2013
 '''
 from omega import *
 from omegaToolkit import *
+from euclid import *
 
 class ScoreBoard:
     
@@ -12,14 +13,18 @@ class ScoreBoard:
         self.numPlayers = len(players)        
         
         self.names = []
+        self.scores = {}
         
         wandIds = []
         
         for player in players:
             self.names.append(player.name)
-            wandIds.append(player.wandId)
             
-        self.wandIds = wandIds
+        #head 0
+        #batmna 1
+        #robin 2
+        #xbox 3
+        #joker 11
         
         self.generateScoreboard()
         
@@ -29,32 +34,48 @@ class ScoreBoard:
         wf = ui.getWidgetFactory()
         uiroot = ui.getUi()
         
-        entryHeight = 30
+        entryHeight = 60
         entryWidth = 200
         
         colors = ['red', 'blue', 'green']
         
         self.scoreContainer = wf.createContainer('scorecontainer', uiroot, ContainerLayout.LayoutFree)
-        self.scoreContainer.setPosition(Vector2(12000,0))
+        self.scoreContainer.setPosition(Vector2(13000,0))
+        #self.scoreContainer.setPosition(Vector2(0,0))
+        
+        self.scoreContainer.setSize(Vector2(entryWidth * 2, entryHeight * len(self.names)))
+        self.scoreContainer.setVisible(True)
         
         self.labels = []
-        self.scores = []
+
+        #for use with wand:
+        wandIds = [1,2,11]
+        
+        #for use with mouse:
+        #wandIds = [0,2,11]
+
         
         for i in xrange(0, self.numPlayers):
             #player names
-            self.labels.append(wf.createLabel('label%i'%i, self.scoreContainer, names[i]))
+            self.labels.append(wf.createLabel('label%i'%i, self.scoreContainer, self.names[i]))
             self.labels[i].setPosition(Vector2(0 ,i * entryHeight))
             self.labels[i].setColor(Color(colors[i]))
+            self.labels[i].setVisible(True)
+            self.labels[i].setFont('fonts/FuturaLT-Light.ttf %i'%entryHeight)
+            
             
             #Player scores
-            self.scores.append(wf.createLabel('score%i'%i, self.scoreContainer, player))
-            self.scores[i].setPosition(Vector2(entryWidth ,i * entryHeight))
-            self.scores[i].setColor(Color(colors[i]))
-
-    def updateScore(self, playerId, value):
-        score = int(self.scores[playerId])
+            self.scores[wandIds[i]] = wf.createLabel('score%i'%i, self.scoreContainer, str(0))
+            self.scores[wandIds[i]].setPosition(Vector2(entryWidth ,i * entryHeight))
+            self.scores[wandIds[i]].setColor(Color(colors[i]))
+            self.scores[wandIds[i]].setVisible(True)
+            self.scores[wandIds[i]].setFont('fonts/FuturaLT-Light.ttf %i'%entryHeight)
+            
+            
+    def updateScore(self, wandId, value):
+        score = int(self.scores[wandId].getText())
         score += value
-        self.scores[playerId].setText(str(score))
+        self.scores[wandId].setText(str(score))
         
         
         
