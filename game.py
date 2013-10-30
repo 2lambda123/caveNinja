@@ -4,6 +4,8 @@ from cyclops import *
 
 from player import *
 from common import *
+from itemManager import *
+import random
 
 nmbPlayers = 3
 objSpeed = 0.5 # per second
@@ -14,6 +16,10 @@ timestep = 2
 totalItems = 36
 
 objHeight = 1.0
+
+#enable physics
+getSceneManager().setGravity(Vector3(0, -0.8, 0))
+getSceneManager().setPhysicsEnabled(True)
 
 #random.seed()
 if isMaster():
@@ -37,6 +43,7 @@ def syncRandom(mySeed):
 
 # Spin the box!
 hasRun = False
+itemManager = ItemManager()
 
 def onUpdate(frame, t, dt):
   global hasRun
@@ -45,10 +52,14 @@ def onUpdate(frame, t, dt):
       playerList.append( Player(nmbItems, objHeight, objStartingRadius, totalItems, timestep, player) )
     hasRun = True
 
-  for item in gameItems:
-    item.update(dt)
+  itemManager.update(frame, t, dt)
+  #for item in gameItems:
+  #  item.update(dt)
 
-  for player in playerList:
-    player.update(t, dt)
+  #for player in playerList:
+  #  player.update(t, dt)
+
+def spawn():
+  itemManager.spawn()
 
 setUpdateFunction(onUpdate)

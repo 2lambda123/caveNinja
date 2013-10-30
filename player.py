@@ -15,10 +15,10 @@ class Player:
     self.dt = 0
     self.items = []
 
-    for item in xrange(nmbItems):
-      newItem = Item(" ", 0.5, objHeight, objStartingRadius, name)
-      self.items.append( newItem )
-      gameItems.append( newItem )
+    #for item in xrange(nmbItems):
+    #  newItem = Item(" ", 0.5, objHeight, objStartingRadius, name)
+    #  self.items.append( newItem )
+    #  gameItems.append( newItem )
 
 
   def update(self, t, dt):

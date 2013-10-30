@@ -11,12 +11,12 @@ players = ['Andrew', 'Joshua', 'Antwan']
 items = {}
 gameItems = []
 
-items['Andrew'] = ['Chair', 'Table', 'Sword']
-items['Joshua'] = ['banana']
-items['Antwan'] = ['SpaceShip', 'Sword']
+items['Andrew'] = ['Chair', 'Table']
+items['Joshua'] = ['banana', 'Table']
+items['Antwan'] = ['SpaceShip', 'Table']
 
 def getRandomPosition(y, radius):
-  x = random.randint(0, radius) * (random.randint(0, 1) * 2 -  1)
+  x = rangef(0, radius) * (random.randint(0, 1) * 2 -  1)
   z = sqrt(pow(radius,2) - pow(x,2)) * (random.randint(0, 1) * 2 - 1)
   return Vector3(x, y, z)
 
@@ -37,12 +37,24 @@ def createRandomItem(playerName, height, radius):
   index = random.randint(0, len(items[playerName]) - 1)
 
   item = StaticObject.create( items[playerName][index])
+  #item = BoxShape.create(0.1, 0.1, 0.1)
   item.setPosition( getRandomPosition( height, radius ) )
   item.setEffect("textured")
+  item.getRigidBody().initialize(RigidBodyType.Box, 1)
+  force = Vector3(0, 3, -1)
+  relativePosition = Vector3(0, 100, 0)
+  item.getRigidBody().applyCentralImpulse(force)
+  #item.getRigidBody().setUserControlled(True)
+  item.getRigidBody().sync()
 
-  print item.getPosition()
+
+
+  #print item.getPosition()
 
   return item
+
+def rangef(minf, maxf):
+  return random.random() * maxf + minf
 
 
 
