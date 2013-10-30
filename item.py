@@ -3,7 +3,6 @@ from cyclops import *
 from common import *
 from math import *
 from random import *
-import copy
 
 class Item:
 
@@ -29,10 +28,10 @@ class Item:
     self.relativePosition.z = rangef(self.rMin, self.rMax)
 
 
-
     r =  rangef(self.iMinR, self.iMaxR)
     iIdx = randint(0, 1)
     pIdx = randint(0, 2)
+    playerName = players[pIdx]
     #self.item = StaticObject.create( items[players[pIdx]][iIdx] )
     #self.item.setPosition( self.initialPosition )
     #self.item.setEffect("textured")
@@ -40,16 +39,17 @@ class Item:
     #self.item.getRigidBody().applyImpulse(self.force, self.relativePosition)
     #item.getRigidBody().setUserControlled(True)
     #self.item.getRigidBody().sync()
+
     self.halves = createRandomItem(playerName, r, self.force, self.relativePosition)
 
 
-    self.parentHalf = self.halves[0]
+    #self.parentHalf = self.halves[0]
 
-    self.parentHalf.addChild(self.halves[1])
-    self.halves[1].setPosition(Vector3(0,0,0))
+    #self.parentHalf.addChild(self.halves[1])
+    #self.halves[1].setPosition(Vector3(0,0,0))
 
     #if 'banana' in self.halves[1].getName():
-    self.halves[1].setScale(Vector3(1.2,1.2,1.2))
+    #self.halves[1].setScale(Vector3(1.2,1.2,1.2))
 
 
     #scene.addChild(self.item)

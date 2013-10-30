@@ -81,13 +81,13 @@ def onUpdate(frame, t, dt):
   #global hasRun
   #global scoreBoard
 
-  if t > 2.0 and not hasRun:
-    for player in players:
-      playerList.append( Player(nmbItems, objHeight, objStartingRadius, totalItems, timestep, player, 0) )
+  #if t > 2.0 and not hasRun:
+  #  for player in players:
+  #    playerList.append( Player(nmbItems, objHeight, objStartingRadius, totalItems, timestep, player, 0) )
 
-    if players:
+  #  if players:
 
-        scoreBoard = ScoreBoard(playerList)
+  #      scoreBoard = ScoreBoard(playerList)
 
   itemManager.update(frame, t, dt)
   #for item in gameItems:
