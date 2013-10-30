@@ -31,3 +31,10 @@ class ItemManager:
         self.respawnTime = rangef(self.minTime, self.maxTime)
 
       self.elapsedTime += dt
+
+
+    for item in gameItems:
+      if item.halves[0].getPosition().y == -2:
+        gameItems.remove(item)
+        removeChildByRef(item)
+
