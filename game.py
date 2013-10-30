@@ -33,10 +33,10 @@ getSceneManager().setPhysicsEnabled(True)
 colorDict = {1:'red', 2:'blue', jokerInt:'green'}
 
 skybox = Skybox()
-skybox.loadCubeMap("common/cubemaps/stars0", "png")
+skybox.loadCubeMap("skybox/stars0", "png")
 getSceneManager().setSkyBox(skybox)
 
-#Use to differentiate between 
+#Use to differentiate between
 itemWandIdDict = {0:1, 1:2, 2:jokerInt}
 
 #random.seed()
@@ -87,12 +87,12 @@ def moveInDir(dirInt, item, dt):
 
 
 def onUpdate(frame, t, dt):
-  #global hasRun
-  #global scoreBoard
+  global hasRun
+  global scoreBoard
 
-  #if t > 2.0 and not hasRun:
-  #  for player in players:
-  #    playerList.append( Player(nmbItems, objHeight, objStartingRadius, totalItems, timestep, player, 0) )
+  if t > 2.0 and not hasRun:
+    for player in players:
+      playerList.append( Player(nmbItems, objHeight, objStartingRadius, totalItems, timestep, player, 0) )
 
   #  if players:
 
@@ -114,7 +114,7 @@ def onEvent():
 
     e = getEvent()
     sourceID = e.getSourceId()
-    print 'wandID: ', sourceID
+    #print 'wandID: ', sourceID
 
     '''
     if sourceID not in activeWandIds:
@@ -138,20 +138,20 @@ def onEvent():
                 hitData = hitNode(half, r[1], r[2])
 
                 if(hitData[0]):
-                    
+
                     #If the player's wand id that hits an item, is the same as the translated item id, then make a negative point value
                     #Otherwise, pointvalue is positive
-                    if(itemWandIdDict[half.pIdx] == sourceID ):
+                    if(itemWandIdDict[item.pIdx] == sourceID ):
                         pointValue = -1
                     else:
                         pointValue = 1
-                    
+
                     print 'player ', sourceID, 'Hit ', half,'!'
                     print 'Intersection at ', hitData[1]
                     half.setEffect('colored -e %s'%colorDict[sourceID])
 
-                    moveInDir(0, item.halves[0], dirAmount)
-                    moveInDir(1, item.halves[1], dirAmount)
+                    #moveInDir(0, item.halves[0], dirAmount)
+                    #moveInDir(1, item.halves[1], dirAmount)
 
                     scoreBoard.updateScore(sourceID, pointValue)
 
