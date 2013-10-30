@@ -5,7 +5,6 @@ from math import *
 from random import *
 
 class Item:
-
   force = Vector3(0, 1.9, 1)
   relativePosition = Vector3(0, 0, 0)
   initialPosition = Vector3(0, 0, -6)
@@ -29,8 +28,9 @@ class Item:
 
 
     r =  rangef(self.iMinR, self.iMaxR)
-    iIdx = randint(0, 1)
-    pIdx = randint(0, 2)
+    iIdx = randint(0, 2)
+    pIdx = randint(0, 3)
+    
     playerName = players[pIdx]
     #self.item = StaticObject.create( items[players[pIdx]][iIdx] )
     #self.item.setPosition( self.initialPosition )

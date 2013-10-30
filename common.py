@@ -12,7 +12,7 @@ items = {}
 gameItems = []
 
 items['Andrew'] = ['Chair', 'Table']
-items['Joshua'] = ['banana', 'Table']
+items['Joshua'] = ['banana', 'pizza']
 items['Antwan'] = ['SpaceShip', 'Table']
 
 #items['Andrew'] = ['banana']

@@ -25,10 +25,19 @@ totalItems = 36
 
 objHeight = 1.0
 
+jokerInt = 11
+
 #enable physics
 getSceneManager().setGravity(Vector3(0, -0.8, 0))
 getSceneManager().setPhysicsEnabled(True)
-colorDict = {1:'red', 2:'blue', 11:'green'}
+colorDict = {1:'red', 2:'blue', jokerInt:'green'}
+
+skybox = Skybox()
+skybox.loadCubeMap("common/cubemaps/stars0", "png")
+getSceneManager().setSkyBox(skybox)
+
+#Use to differentiate between 
+itemWandIdDict = {0:1, 1:2, 2:jokerInt}
 
 #random.seed()
 if isMaster():
@@ -105,6 +114,7 @@ def onEvent():
 
     e = getEvent()
     sourceID = e.getSourceId()
+    print 'wandID: ', sourceID
 
     '''
     if sourceID not in activeWandIds:
@@ -128,6 +138,14 @@ def onEvent():
                 hitData = hitNode(half, r[1], r[2])
 
                 if(hitData[0]):
+                    
+                    #If the player's wand id that hits an item, is the same as the translated item id, then make a negative point value
+                    #Otherwise, pointvalue is positive
+                    if(itemWandIdDict[half.pIdx] == sourceID ):
+                        pointValue = -1
+                    else:
+                        pointValue = 1
+                    
                     print 'player ', sourceID, 'Hit ', half,'!'
                     print 'Intersection at ', hitData[1]
                     half.setEffect('colored -e %s'%colorDict[sourceID])
@@ -135,7 +153,7 @@ def onEvent():
                     moveInDir(0, item.halves[0], dirAmount)
                     moveInDir(1, item.halves[1], dirAmount)
 
-                    scoreBoard.updateScore(sourceID, 1)
+                    scoreBoard.updateScore(sourceID, pointValue)
 
 
 
