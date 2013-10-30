@@ -18,6 +18,8 @@ class Item:
   iMinR = 5.0
   iMaxR = 6.0
   item = None
+  iIdx = 0
+  pIdx = 0
 
   def __init__(self):
     #Assign a model
@@ -28,10 +30,10 @@ class Item:
 
 
     r =  rangef(self.iMinR, self.iMaxR)
-    iIdx = randint(0, 2)
-    pIdx = randint(0, 3)
-    
-    playerName = players[pIdx]
+    self.iIdx = randint(0, 2)
+    self.pIdx = randint(0, 2)
+
+    playerName = players[self.pIdx]
     #self.item = StaticObject.create( items[players[pIdx]][iIdx] )
     #self.item.setPosition( self.initialPosition )
     #self.item.setEffect("textured")
