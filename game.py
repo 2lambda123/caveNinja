@@ -94,9 +94,8 @@ def onUpdate(frame, t, dt):
     for player in players:
       playerList.append( Player(nmbItems, objHeight, objStartingRadius, totalItems, timestep, player, 0) )
 
-  #  if players:
-
-  #      scoreBoard = ScoreBoard(playerList)
+    if players:
+        scoreBoard = ScoreBoard(playerList)
 
   itemManager.update(frame, t, dt)
   #for item in gameItems:
