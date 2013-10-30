@@ -53,7 +53,6 @@ class ScoreBoard:
         
         #for use with mouse:
         #wandIds = [0,2,11]
-
         
         for i in xrange(0, self.numPlayers):
             #player names
