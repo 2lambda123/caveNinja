@@ -54,7 +54,6 @@ class ScoreBoard:
         #for use with mouse:
         #wandIds = [0,2,11]
 
-
         for i in xrange(0, self.numPlayers):
             #player names
             self.labels.append(wf.createLabel('label%i'%i, self.scoreContainer, self.names[i]))
