@@ -13,7 +13,7 @@ gameItems = []
 
 items['Andrew'] = ['Chair', 'Table']
 items['Joshua'] = ['banana', 'pizza']
-items['Antwan'] = ['SpaceShip', 'Table']
+items['Antwan'] = ['SpaceShip', 'planet']
 
 #items['Andrew'] = ['banana']
 #items['Joshua'] = ['banana']
