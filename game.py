@@ -93,6 +93,8 @@ def onUpdate(frame, t, dt):
   if t > 2.0 and not hasRun:
     for player in players:
       playerList.append( Player(nmbItems, objHeight, objStartingRadius, totalItems, timestep, player, 0) )
+      print "Adding: %s" % player
+      hasRun = True
 
     if players:
         scoreBoard = ScoreBoard(playerList)
