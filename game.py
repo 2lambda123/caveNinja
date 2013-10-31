@@ -139,6 +139,19 @@ def onEvent():
                 hitData = hitNode(half, r[1], r[2])
 
                 if(hitData[0]):
+                    item.halves[0].removeChild()  
+                    item.halves[1].setPosition(item.halves[0].getPosition())                
+                    '''
+                    force = Vector3(1,1,1)
+                    
+                    force.x = -1 * norm.x
+                    force.z = -1 * norm.z
+                    '''
+                    
+                    item.halves[1].getRigidBody().initialize(RigidBodyType.Box, 1)
+                    item.halves[1].getRigidBody().sync()
+                    #item.halves[1].getRigidBody().applyImpulse(force, relativePosition)
+
 
                     #If the player's wand id that hits an item, is the same as the translated item id, then make a negative point value
                     #Otherwise, pointvalue is positive

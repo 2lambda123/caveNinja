@@ -25,7 +25,7 @@ def getRandomPosition(y, radius):
   return Vector3(x, y, z)
 
 def loadModel(player, name):
-
+  '''
   key = (player, name)
   itemModel[key] = ModelInfo()
   itemModel[key].name = name
@@ -33,15 +33,16 @@ def loadModel(player, name):
   itemModel[key].size = 1.0
   getSceneManager().loadModel(itemModel[key])
   '''
+    
   for i in range(0,2):
       key = (player, str(i))
       itemModel[key] = ModelInfo()
-      itemModel[key].name = str('banana_half%i'%(i + 1))
+      itemModel[key].name = str('%s_half%i'%(name, i + 1))
       #itemModel[key].path = "models/" + player + "/" + 'banana'+ '/' + 'banana_half'+ str(i) + ".fbx"
-      itemModel[key].path = "models/" + player + "/" + 'banana'+ '/' + 'banana_half'+ str(i + 1) + ".obj"
+      itemModel[key].path = "models/" + player + "/" + name + '/' + name + '_half'+ str(i + 1) + ".fbx"
       itemModel[key].size = 1.0
       getSceneManager().loadModel(itemModel[key])
-  '''
+ 
 
 def loadModels():
   for player in players:
@@ -49,6 +50,7 @@ def loadModels():
       loadModel(player, item)
 
 def createRandomItem(playerName, radius, force, relativePosition):
+  
   index = random.randint(0, len(items[playerName]) - 1)
   halves = []
 
@@ -57,9 +59,32 @@ def createRandomItem(playerName, radius, force, relativePosition):
   norm.normalize()
   force.x = -1 * norm.x
   force.z = -1 * norm.z
+  name = items[playerName][index]
 
+  for i in range(0,2):
+    #tempName = str('banana_half%i'%(i + 1))
+    #print 'TEMPNAME     ',tempName
+    #item = StaticObject.create(tempName)
+
+    item = StaticObject.create(str('%s_half%i'%(name, i + 1)))
+    item.setPosition(randPos)
+    item.setEffect("textured")
+    
+    if i == 0:
+      item.getRigidBody().initialize(RigidBodyType.Box, 1)
+      item.getRigidBody().applyImpulse(force, relativePosition)
+      item.getRigidBody().sync()
+
+
+    halves.append(item)
+    
+    halves[0].addChild(halves[1])
+    
+    return halves
+
+  '''
   #randPos.y = 2
-  print "Creating: %s %s" % (playerName, items[playerName][index])
+  #print "Creating: %s %s" % (playerName, items[playerName][index])
   item = StaticObject.create( items[playerName][index])
   item.setPosition(randPos)
   item.setEffect("textured -C")
@@ -68,23 +93,7 @@ def createRandomItem(playerName, radius, force, relativePosition):
   item.getRigidBody().sync()
 
   halves.append(item)
-  return halves
-
-'''
-  for i in range(0,2):
-    #tempName = str('banana_half%i'%(i + 1))
-    #print 'TEMPNAME     ',tempName
-    #item = StaticObject.create(tempName)
-    item = StaticObject.create( items[playerName][index])
-    item.setPosition(randPos)
-    item.setEffect("textured")
-    if i == 0:
-      item.getRigidBody().initialize(RigidBodyType.Box, 1)
-      item.getRigidBody().applyImpulse(force, relativePosition)
-      item.getRigidBody().sync()
-
-    halves.append(item)
-'''
+  '''  
 
 def rangef(minf, maxf):
   return random.random() * maxf + minf
