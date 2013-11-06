@@ -28,7 +28,7 @@ objHeight = 1.0
 jokerInt = 11
 
 #enable physics
-getSceneManager().setGravity(Vector3(0, -0.8, 0))
+getSceneManager().setGravity(Vector3(0, -0.4, 0))
 getSceneManager().setPhysicsEnabled(True)
 colorDict = {1:'red', 2:'blue', jokerInt:'green'}
 
@@ -60,6 +60,45 @@ playerList=[]
 
 scoreBoard = None
 
+# create wand object for each player
+wandAndrewModel = ModelInfo()
+wandAndrewModel.name = "wandAndrew"
+wandAndrewModel.path = "models/Andrew/Sword.fbx"
+wandAndrewModel.size = 1.0
+getSceneManager().loadModel(wandAndrewModel)
+
+wandAndrew = StaticObject.create("wandAndrew")
+wandAndrew.followTrackable(1)
+wandAndrew.setFollowOffset(Vector3(0,0,0), quaternionFromEulerDeg(-90,0,0))
+wandAndrew.setEffect('textured')
+wandAndrew.setScale(0.5,2,0.5)
+getDefaultCamera().addChild(wandAndrew)
+
+wandAntwanModel = ModelInfo()
+wandAntwanModel.name = "wandAntwan"
+wandAntwanModel.path = "models/Antwan/Sword.fbx"
+wandAntwanModel.size = 1.0
+getSceneManager().loadModel(wandAntwanModel)
+
+wandAntwan = StaticObject.create("wandAntwan")
+wandAntwan.followTrackable(2)
+wandAntwan.setFollowOffset(Vector3(0,0,0), quaternionFromEulerDeg(-90,0,0))
+wandAntwan.setEffect('textured')
+#wandAntwan.setScale(0.5,2,0.5)
+getDefaultCamera().addChild(wandAntwan)
+
+wandJoshuaModel = ModelInfo()
+wandJoshuaModel.name = "wandJoshua"
+wandJoshuaModel.path = "models/Antwan/Sword.fbx"
+wandJoshuaModel.size = 1.0
+getSceneManager().loadModel(wandJoshuaModel)
+
+wandJoshua = StaticObject.create("wandJoshua")
+wandJoshua.followTrackable(3)
+wandJoshua.setFollowOffset(Vector3(0,0,0), quaternionFromEulerDeg(-90,0,0))
+wandJoshua.setEffect('textured')
+#wandAntwan.setScale(0.5,2,0.5)
+getDefaultCamera().addChild(wandJoshua)
 
 def printActiveWands():
     for wandId in activeWandIds:
@@ -149,7 +188,7 @@ def onEvent():
 
                     print 'player ', sourceID, 'Hit ', half,'!'
                     print 'Intersection at ', hitData[1]
-                    half.setEffect('colored -e %s'%colorDict[sourceID])
+                    half.setEffect('colored -d black -e %s -C'%colorDict[sourceID])
 
                     #moveInDir(0, item.halves[0], dirAmount)
                     #moveInDir(1, item.halves[1], dirAmount)
