@@ -60,6 +60,36 @@ playerList=[]
 
 scoreBoard = None
 
+# setup sound
+sounds = {}
+se = getSoundEnvironment()
+se.setAssetDirectory('caveNinja')
+bkgSound = se.loadSoundFromFile('bkgSound', 'starWars.wav')
+antwanLost = se.loadSoundFromFile('antwanLost', 'lost.wav')
+antwanPlanet = se.loadSoundFromFile('antwanPlanet', 'planet.wav')
+antwanSpaceShip = se.loadSoundFromFile('antwanSpaceShip', 'spaceShip.wav')
+antwanWrongObject = se.loadSoundFromFile('antwanWrongObject', 'wrongObject.wav')
+
+antwanLostI= SoundInstance(antwanLost)
+antwanLostI.setPosition(Vector3(0, 0, 0))
+sounds['Antwan'] = {} #['planet', 'SpaceShip']
+
+sounds['Antwan']['planet'] = SoundInstance(antwanPlanet)
+sounds['Antwan']['planet'].setPosition(Vector3(0, 0, 0))
+
+sounds['Antwan']['SpaceShip'] = SoundInstance(antwanSpaceShip)
+sounds['Antwan']['SpaceShip'].setPosition(Vector3(0, 0, 0))
+
+antwanWrongObjectI = SoundInstance(antwanWrongObject)
+antwanWrongObjectI.setPosition(Vector3(0, 0, 0))
+
+bkgSoundInst = SoundInstance(bkgSound)
+bkgSoundInst.setLoop(True)
+bkgSoundInst.setVolumeScale(0.4)
+bkgSoundInst.setPosition(Vector3(0, 0, 0))
+
+#antwan
+
 
 def printActiveWands():
     for wandId in activeWandIds:
@@ -145,6 +175,8 @@ def onEvent():
                     if(itemWandIdDict[item.pIdx] == sourceID ):
                         pointValue = -1
                     else:
+                        print "Trying to play audio"
+                        sounds['Antwan']['planet'].playStereo()
                         pointValue = 1
 
                     print 'player ', sourceID, 'Hit ', half,'!'
@@ -157,6 +189,8 @@ def onEvent():
                     scoreBoard.updateScore(sourceID, pointValue)
 
 
+
+#bkgSoundInst.playStereo()
 
 setUpdateFunction(onUpdate)
 setEventFunction(onEvent)
