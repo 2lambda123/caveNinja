@@ -31,6 +31,7 @@ def loadModel(player, name):
   itemModel[key].name = name
   itemModel[key].path = "models/" + player + "/" + name + ".fbx"
   itemModel[key].size = 1.0
+  itemModel[key].generateNormals = True
   getSceneManager().loadModel(itemModel[key])
   '''
   for i in range(0,2):
@@ -59,7 +60,7 @@ def createRandomItem(playerName, radius, force, relativePosition):
   force.z = -1 * norm.z
 
   #randPos.y = 2
-  print "Creating: %s %s" % (playerName, items[playerName][index])
+  #print "Creating: %s %s" % (playerName, items[playerName][index])
   item = StaticObject.create( items[playerName][index])
   item.setPosition(randPos)
   item.setEffect("textured -C")

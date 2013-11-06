@@ -9,14 +9,14 @@ class Item:
   relativePosition = Vector3(0, 0, 0)
   initialPosition = Vector3(0, 0, -6)
 
-  fMinY = 1.5
-  fMaxY = 2.0
+  fMinY = 0.7
+  fMaxY = 1.0
 
   rMin = -0.2
   rMax = 0.2
 
-  iMinR = 5.0
-  iMaxR = 6.0
+  iMinR = 3.0
+  iMaxR = 4.0
   item = None
   iIdx = 0
   pIdx = 0

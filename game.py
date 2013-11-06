@@ -28,13 +28,18 @@ objHeight = 1.0
 jokerInt = 11
 
 #enable physics
-getSceneManager().setGravity(Vector3(0, -0.8, 0))
+getSceneManager().setGravity(Vector3(0, -0.4, 0))
 getSceneManager().setPhysicsEnabled(True)
 colorDict = {1:'red', 2:'blue', jokerInt:'green'}
 
 skybox = Skybox()
 skybox.loadCubeMap("skybox/stars0", "png")
 getSceneManager().setSkyBox(skybox)
+
+idToPlayer = {}
+idToPlayer[1] = 'Andrew'
+idToPlayer[2] = 'Joshua'
+idToPlayer[11] = 'Antwan'
 
 #Use to differentiate between
 itemWandIdDict = {0:1, 1:2, 2:jokerInt}
@@ -62,6 +67,7 @@ scoreBoard = None
 
 # setup sound
 sounds = {}
+lostSounds = {}
 se = getSoundEnvironment()
 se.setAssetDirectory('caveNinja')
 bkgSound = se.loadSoundFromFile('bkgSound', 'starWars.wav')
@@ -72,24 +78,83 @@ antwanWrongObject = se.loadSoundFromFile('antwanWrongObject', 'wrongObject.wav')
 
 antwanLostI= SoundInstance(antwanLost)
 antwanLostI.setPosition(Vector3(0, 0, 0))
-sounds['Antwan'] = {} #['planet', 'SpaceShip']
+sounds['Andrew'] = {}
+sounds['Joshua'] = {}
+sounds['Antwan'] = {}
+
 
 sounds['Antwan']['planet'] = SoundInstance(antwanPlanet)
 sounds['Antwan']['planet'].setPosition(Vector3(0, 0, 0))
 
-sounds['Antwan']['SpaceShip'] = SoundInstance(antwanSpaceShip)
-sounds['Antwan']['SpaceShip'].setPosition(Vector3(0, 0, 0))
+#sounds['Antwan']['SpaceShip'] = SoundInstance(antwanSpaceShip)
+#sounds['Antwan']['SpaceShip'].setPosition(Vector3(0, 0, 0))
 
-antwanWrongObjectI = SoundInstance(antwanWrongObject)
-antwanWrongObjectI.setPosition(Vector3(0, 0, 0))
+sounds['Andrew']['planet'] = SoundInstance(antwanSpaceShip)
+sounds['Andrew']['planet'].setPosition(Vector3(0, 0, 0))
+
+#sounds['Andrew']['SpaceShip'] = SoundInstance(antwanSpaceShip)
+#sounds['Andrew']['SpaceShip'].setPosition(Vector3(0, 0, 0))
+
+sounds['Joshua']['planet'] = SoundInstance(antwanLost)
+sounds['Joshua']['planet'].setPosition(Vector3(0, 0, 0))
+
+#sounds['Joshua']['SpaceShip'] = SoundInstance(antwanSpaceShip)
+#sounds['Joshua']['SpaceShip'].setPosition(Vector3(0, 0, 0))
+
+lostSounds['Antwan'] = SoundInstance(antwanWrongObject)
+lostSounds['Antwan'].setPosition(Vector3(0, 0, 0))
+
+lostSounds['Andrew'] = SoundInstance(antwanWrongObject)
+lostSounds['Andrew'].setPosition(Vector3(0, 0, 0))
+
+lostSounds['Joshua'] = SoundInstance(antwanWrongObject)
+lostSounds['Joshua'].setPosition(Vector3(0, 0, 0))
 
 bkgSoundInst = SoundInstance(bkgSound)
 bkgSoundInst.setLoop(True)
-bkgSoundInst.setVolumeScale(0.4)
 bkgSoundInst.setPosition(Vector3(0, 0, 0))
 
 #antwan
 
+# create wand object for each player
+wandAndrewModel = ModelInfo()
+wandAndrewModel.name = "wandAndrew"
+wandAndrewModel.path = "models/Andrew/Sword.fbx"
+wandAndrewModel.size = 1.0
+getSceneManager().loadModel(wandAndrewModel)
+
+wandAndrew = StaticObject.create("wandAndrew")
+wandAndrew.followTrackable(1)
+wandAndrew.setFollowOffset(Vector3(0,0,0), quaternionFromEulerDeg(-90,0,0))
+wandAndrew.setEffect('textured')
+wandAndrew.setScale(0.5,2,0.5)
+getDefaultCamera().addChild(wandAndrew)
+
+wandAntwanModel = ModelInfo()
+wandAntwanModel.name = "wandAntwan"
+wandAntwanModel.path = "models/Antwan/Sword.fbx"
+wandAntwanModel.size = 1.0
+getSceneManager().loadModel(wandAntwanModel)
+
+wandAntwan = StaticObject.create("wandAntwan")
+wandAntwan.followTrackable(2)
+wandAntwan.setFollowOffset(Vector3(0,0,0), quaternionFromEulerDeg(-90,0,0))
+wandAntwan.setEffect('textured')
+#wandAntwan.setScale(0.5,2,0.5)
+getDefaultCamera().addChild(wandAntwan)
+
+wandJoshuaModel = ModelInfo()
+wandJoshuaModel.name = "wandJoshua"
+wandJoshuaModel.path = "models/Antwan/Sword.fbx"
+wandJoshuaModel.size = 1.0
+getSceneManager().loadModel(wandJoshuaModel)
+
+wandJoshua = StaticObject.create("wandJoshua")
+wandJoshua.followTrackable(3)
+wandJoshua.setFollowOffset(Vector3(0,0,0), quaternionFromEulerDeg(-90,0,0))
+wandJoshua.setEffect('textured')
+#wandAntwan.setScale(0.5,2,0.5)
+getDefaultCamera().addChild(wandJoshua)
 
 def printActiveWands():
     for wandId in activeWandIds:
@@ -174,14 +239,14 @@ def onEvent():
                     #Otherwise, pointvalue is positive
                     if(itemWandIdDict[item.pIdx] == sourceID ):
                         pointValue = -1
+                        lostSounds[idToPlayer[sourceID]].playStereo()
                     else:
-                        print "Trying to play audio"
-                        sounds['Antwan']['planet'].playStereo()
+                        sounds[idToPlayer[sourceID]]['planet'].playStereo()
                         pointValue = 1
 
-                    print 'player ', sourceID, 'Hit ', half,'!'
-                    print 'Intersection at ', hitData[1]
-                    half.setEffect('colored -e %s'%colorDict[sourceID])
+                    #print 'player ', sourceID, 'Hit ', half,'!'
+                    #print 'Intersection at ', hitData[1]
+                    half.setEffect('colored -d black -e %s -C'%colorDict[sourceID])
 
                     #moveInDir(0, item.halves[0], dirAmount)
                     #moveInDir(1, item.halves[1], dirAmount)
@@ -190,7 +255,7 @@ def onEvent():
 
 
 
-#bkgSoundInst.playStereo()
+bkgSoundInst.playStereo()
 
 setUpdateFunction(onUpdate)
 setEventFunction(onEvent)

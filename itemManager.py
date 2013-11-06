@@ -12,7 +12,7 @@ class ItemManager:
   liveItems = []
   respawnTime = 0
   minTime = 0.2
-  maxTime = 2
+  maxTime = 1
   elapsedTime = 0
 
   def __init__(self):
@@ -24,17 +24,20 @@ class ItemManager:
     gameItems.append(item)
 
   def update(self, frame, t, dt):
-    if isMaster():
-      if self.elapsedTime > self.respawnTime :
-        broadcastCommand("spawn()")
-        self.elapsedTime = 0
-        self.respawnTime = rangef(self.minTime, self.maxTime)
+	if isMaster():
+	  if self.elapsedTime > self.respawnTime :
+		broadcastCommand("spawn()")
+		self.elapsedTime = 0
+		self.respawnTime = rangef(self.minTime, self.maxTime)
 
-      self.elapsedTime += dt
+	self.elapsedTime += dt
+	todel = []
 
-
-    for item in gameItems:
-      if item.halves[0].getPosition().y == -2:
-        gameItems.remove(item)
-        removeChildByRef(item)
-
+	for item in gameItems:
+	  if item.halves[0].getPosition().y < -2:
+		todel.append(item)
+		if(item.halves[0].getParent() != None):
+			item.halves[0].getParent().removeChildByRef(item.halves[0])
+		
+	for item in todel:
+		gameItems.remove(item)
